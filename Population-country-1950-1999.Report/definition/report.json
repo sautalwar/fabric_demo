@@ -44,7 +44,10 @@
     "exportDataMode": "AllowSummarized",
     "defaultDrillFilterOtherVisuals": true,
     "allowChangeFilterTypes": true,
+    "allowInlineExploration": true,
     "useEnhancedTooltips": true,
+    "pagesPosition": "Bottom",
+    "allowAutomatedInsightsNotification": true,
     "useDefaultAggregateDisplayName": true
   }
 }
