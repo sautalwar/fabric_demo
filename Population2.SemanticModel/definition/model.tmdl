@@ -10,6 +10,8 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["Population-country-1950-1999"]
 
+annotation PBI_ProTooling = ["DevMode"]
+
 ref table Population-country-1950-1999
 
 ref cultureInfo en-US
