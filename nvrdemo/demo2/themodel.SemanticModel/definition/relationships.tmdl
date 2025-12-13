@@ -1,0 +1,8 @@
+relationship AutoDetected_a7683940-1584-4845-83bb-27abd365f8ae
+	fromColumn: hosp_appointments.PatientID
+	toColumn: hosp_patients.PatientID
+
+relationship AutoDetected_0f9ffdf3-36b6-4bf7-905a-50a890d72c68
+	fromColumn: hosp_encounters.PatientID
+	toColumn: hosp_patients.PatientID
+

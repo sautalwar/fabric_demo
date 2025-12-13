@@ -1,0 +1,59 @@
+table hosp_appointments
+	lineageTag: 5d000f03-bb8b-4937-8de2-3d686d08552b
+
+	measure Appointments = COUNTROWS(hosp_appointments)
+		formatString: 0
+		lineageTag: 209d6581-517a-4671-8697-e8a395be1208
+
+	measure TotalApptsAndEncouts = [Appointments]+[Encounters]
+		formatString: 0
+		lineageTag: 77279f95-bb7d-475f-be0a-631a0a17071a
+
+	column AppointmentId
+		dataType: int64
+		formatString: 0
+		lineageTag: ff0d6913-a261-4f09-9fae-88d313a52764
+		summarizeBy: count
+		sourceColumn: AppointmentId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Appointment
+		dataType: string
+		lineageTag: 2a54619d-2722-4ccd-b4cf-f113cbb9db40
+		summarizeBy: none
+		sourceColumn: Appointment
+
+		annotation SummarizationSetBy = Automatic
+
+	column AppointmentDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 314023ec-6f00-49f0-81f0-b71ffd5ed6c1
+		summarizeBy: none
+		sourceColumn: AppointmentDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PatientID
+		dataType: int64
+		formatString: 0
+		lineageTag: 80873274-0758-45ce-b963-dbfe33080f66
+		summarizeBy: none
+		sourceColumn: PatientID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition hosp_appointments = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("giac.database.windows.net", "AdventureWorksDW"),
+				    dbo_hosp_appointments = Source{[Schema="dbo",Item="hosp_appointments"]}[Data]
+				in
+				    dbo_hosp_appointments
+
+	annotation PBI_ResultType = Table
+

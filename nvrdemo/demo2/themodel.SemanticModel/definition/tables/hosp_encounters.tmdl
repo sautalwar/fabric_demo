@@ -1,0 +1,55 @@
+table hosp_encounters
+	lineageTag: 4e4a0cce-b2f5-4b8f-93af-ec15a8211adb
+
+	measure Encounters = COUNTROWS(hosp_encounters)
+		formatString: 0
+		lineageTag: 89fa7c39-40ce-4e74-b43c-4de3f146c37b
+
+	column EncounterID
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e703b28-61b5-49e3-961e-0dba964a3774
+		summarizeBy: count
+		sourceColumn: EncounterID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Encounter
+		dataType: string
+		lineageTag: fb883d0b-dc5a-4691-8c98-c66aa6cb5e66
+		summarizeBy: none
+		sourceColumn: Encounter
+
+		annotation SummarizationSetBy = Automatic
+
+	column EncounterDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8276765a-7164-4e54-b3fa-3c8bdeb68b3c
+		summarizeBy: none
+		sourceColumn: EncounterDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PatientID
+		dataType: int64
+		formatString: 0
+		lineageTag: c75bca20-c1b7-4886-819f-bc5cfabad0e0
+		summarizeBy: none
+		sourceColumn: PatientID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition hosp_encounters = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("giac.database.windows.net", "AdventureWorksDW"),
+				    dbo_hosp_encounters = Source{[Schema="dbo",Item="hosp_encounters"]}[Data]
+				in
+				    dbo_hosp_encounters
+
+	annotation PBI_ResultType = Table
+

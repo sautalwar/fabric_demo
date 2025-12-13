@@ -1,0 +1,45 @@
+table hosp_patients
+	lineageTag: 2090e667-2bd8-4331-8875-9f642fdaa0ef
+
+	column PatientID
+		dataType: int64
+		formatString: 0
+		lineageTag: 709fda88-8f48-489c-b582-352389557666
+		summarizeBy: none
+		sourceColumn: PatientID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		lineageTag: b99f8fa5-36b3-4566-aa4a-3af2df27eeaf
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		lineageTag: d5527f6c-43cf-4a6b-9e1c-69612933d7cb
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Patient Name' = hosp_patients[FirstName]& " " &hosp_patients[LastName]
+		lineageTag: 1930164b-c838-4a56-af53-f5f770e2d604
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition hosp_patients = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("giac.database.windows.net", "AdventureWorksDW"),
+				    dbo_hosp_patients = Source{[Schema="dbo",Item="hosp_patients"]}[Data]
+				in
+				    dbo_hosp_patients
+
+	annotation PBI_ResultType = Table
+

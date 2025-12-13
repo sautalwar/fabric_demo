@@ -1,0 +1,44 @@
+table Sheet1
+	lineageTag: 37a0ac67-67a8-471c-b616-33faee916040
+
+	column Area
+		dataType: string
+		lineageTag: cd873ebf-0180-424f-9da3-1026e07fe407
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Remaining Time (in Hours)'
+		dataType: double
+		lineageTag: 48dc7a2d-8610-45b5-9529-2ddc6731c42a
+		summarizeBy: sum
+		sourceColumn: Remaining Time (in Hours)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Status
+		dataType: string
+		lineageTag: d6d023f4-e2e2-4de9-8cd2-31d7ee55e595
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sheet1 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\My files\OneDrive\OneDrive - Basement Bazaar Private Limited\Coaching\My Online Class\Source\1. Video Sources\26-12-2023\Data for Dax Query.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Area", type text}, {"Remaining Time (in Hours)", type number}, {"Status", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
